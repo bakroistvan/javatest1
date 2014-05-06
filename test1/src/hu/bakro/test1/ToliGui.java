@@ -20,26 +20,24 @@ import javax.swing.JPanel;
 //
 
 public class ToliGui extends JPanel {
-	private static final int xNum = 3;
-	private static final int yNum = 3;
 	private static final int sidePixels = 100;
 	private ToliCore _core;
 	private SurfacePanel _surface;
 	
-	public ToliGui() {
+	public ToliGui(int xNum, int yNum) {
 		_core = new ToliCore(xNum, yNum);
 		_surface = new SurfacePanel(_core, xNum, yNum, sidePixels);
 		
-		//--- Create a button.  Add a listener to it.
+		// jatek elkezdese/ujrakezdese gomb
         JButton newGameButton = new JButton("New Game");
         newGameButton.addActionListener(new StartGameAction());
 
-        //--- Create control panel
+        // panel
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
         controlPanel.add(newGameButton);
                 
-        //--- Set the layout and add the components
+        // panelhez az elemez hozzadasa
         this.setLayout(new BorderLayout());
         this.add(controlPanel, BorderLayout.NORTH);
         this.add(_surface, BorderLayout.CENTER);

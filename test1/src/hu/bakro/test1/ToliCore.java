@@ -62,7 +62,7 @@ public class ToliCore {
 		}
 		
 		// ures mezo mozgatasa veletlen iranyba
-		for(int tt = 0; tt < 100; tt++) {
+		for(int tt = 0; tt < 100 * _xNum * _yNum; tt++) {
 			/*
 			 * 0 -> fel
 			 * 1 -> le

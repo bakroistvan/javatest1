@@ -21,7 +21,7 @@ public class MyFace {
 	private BufferedImage[][] _ims;
 	private final int _xNum;
 	private final int _yNum;
-	private final int _sidePixel;
+	private final int _sidePixels;
 	
 	/**
 	 *
@@ -31,12 +31,15 @@ public class MyFace {
 	 * @param    sidePixel  feldarabolt elemek szelessege pixelben.
 	 * @throws IOException 
 	**/
-	public MyFace(String path, int xNum, int yNum, int sidePixel) throws IOException {
-		_pic = ImageIO.read(new File(path)); 
+	public MyFace(String path, int xNum, int yNum, int sidePixels) throws IOException {
+		File picFile = new File(path);
+		_pic = ImageIO.read(picFile); 
 		_ims = new BufferedImage[xNum][yNum];
 		_xNum = xNum;
 		_yNum = yNum;
-		_sidePixel = sidePixel;
+		_sidePixels = sidePixels;
+		
+		
 		
 		slicing();
 	}
@@ -66,9 +69,12 @@ public class MyFace {
 	 * Kep feldarabolasa az elemeknek.
 	**/
 	public void slicing() {
+		int dw = (int)Math.floor(_pic.getWidth() / _yNum);
+		int dh = (int)Math.floor(_pic.getHeight() / _xNum);
+		
 		for(int xx = 0; xx < _xNum; xx++) {
 			for(int yy = 0; yy < _yNum; yy++) {
-				_ims[xx][yy] = _pic.getSubimage(_sidePixel * xx, _sidePixel * yy, _sidePixel, _sidePixel);
+				_ims[xx][yy] = _pic.getSubimage(dw * yy, dh * xx, dw, dh);
 			}
 		}
 	}

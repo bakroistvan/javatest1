@@ -3,9 +3,10 @@ package hu.bakro.test1;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	private final int _yNum;
 	private final int _sidePixels;
 	private ToliCore _core;
+	private MyFace _face;
 	
 	public SurfacePanel(ToliCore core, int xNum, int yNum, int sidePixels) {
 		_xNum = xNum;
@@ -33,27 +35,44 @@ public class SurfacePanel extends JPanel implements MouseListener {
 		_sidePixels = sidePixels;
 		_core = core;
 		
-        this.setPreferredSize(new Dimension(_sidePixels * _xNum, _sidePixels * _yNum));
-        this.setBackground(Color.white);
+		URL resource = getClass().getResource("image.jpg");
+		try {
+			_face = new MyFace(resource.getFile(), _xNum, _yNum, _sidePixels);
+		} catch(IOException e) {
+		}
+		
+        this.setPreferredSize(new Dimension(_sidePixels * _yNum, _sidePixels * _xNum + 20));
+        this.setBackground(Color.lightGray);
         this.addMouseListener(this);
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		int inPlace = 0;
+		
 		for(int xx = 0; xx < _xNum; xx++) {
 			for(int yy = 0; yy < _yNum; yy++) {
 				Item it = _core.getItem(xx, yy);
 				// nem ures elemek rajzolasa
                 if(it != null) {
-                	String str = Integer.toString((it._x * _yNum) + it._y);
+                	String str = Integer.toString((it.getX() * _yNum) + it.getY());
                 	
                     g.setColor(Color.lightGray);
                     g.fillRect((yy*_sidePixels)+1, (xx*_sidePixels)+1, _sidePixels-2, _sidePixels-2);
                     g.setColor(Color.black);
                     g.drawString(str, (int)((yy+0.5)*_sidePixels), (int)((xx+0.5)*_sidePixels));
+                    
+                    g.drawImage(_face.getFace(it.getX(), it.getY()), (yy*_sidePixels)+1, (xx*_sidePixels)+1, _sidePixels-2, _sidePixels-2, null);
+                    
+                    
+                    inPlace = it.isInGoodPlace(xx, yy) ? inPlace+1 : inPlace;
                 }
             }
         }
+		String str = "Kész / Összes   -->   " + Integer.toString(inPlace) + " / " + Integer.toString(_xNum*_yNum - 1);
+		g.setColor(Color.black);
+		g.drawString(str, 10, _xNum*_sidePixels + 20);
 	}
 	
 	/**
