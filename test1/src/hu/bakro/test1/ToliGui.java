@@ -21,12 +21,16 @@ import javax.swing.JPanel;
 
 public class ToliGui extends JPanel {
 	private static final int sidePixels = 100;
-	private ToliCore _core;
-	private SurfacePanel _surface;
+	private final ToliCore _core;
+	private final SurfacePanel _surface;
+	private final Stopwatch _watch;
 	
 	public ToliGui(int xNum, int yNum) {
+        // stopperora cimke
+        _watch = new Stopwatch();
+        
 		_core = new ToliCore(xNum, yNum);
-		_surface = new SurfacePanel(_core, xNum, yNum, sidePixels);
+		_surface = new SurfacePanel(_core, _watch, xNum, yNum, sidePixels);
 		
 		// jatek elkezdese/ujrakezdese gomb
         JButton newGameButton = new JButton("New Game");
@@ -36,6 +40,7 @@ public class ToliGui extends JPanel {
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
         controlPanel.add(newGameButton);
+        controlPanel.add(_watch);
                 
         // panelhez az elemez hozzadasa
         this.setLayout(new BorderLayout());
@@ -46,12 +51,19 @@ public class ToliGui extends JPanel {
 	
 	public class StartGameAction implements ActionListener {
 		/**
-		 * Gomb lenyomasanak elkapasa es a jatek ujrakezdese.
+		 * Gomb lenyomasanak elkapasa es a jatek (ujra)kezdese.
 		 *
 		 * @param    e
 		**/
 		public void actionPerformed(ActionEvent e) {
+			// tabla megkevetese
 			_core.shuffle();
+			
+			// stopperora visszaallitasa es elinditasa
+			_watch.reset();
+			_watch.start();
+			
+			// rajzoltatas
 			_surface.repaint();
 		}
 	}

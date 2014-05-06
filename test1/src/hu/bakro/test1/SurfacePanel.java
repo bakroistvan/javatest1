@@ -26,19 +26,22 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	private final int _xNum;
 	private final int _yNum;
 	private final int _sidePixels;
-	private ToliCore _core;
+	private final ToliCore _core;
 	private MyFace _face;
+	private final Stopwatch _watch;
 	
-	public SurfacePanel(ToliCore core, int xNum, int yNum, int sidePixels) {
+	public SurfacePanel(ToliCore core, Stopwatch watch, int xNum, int yNum, int sidePixels) {
 		_xNum = xNum;
 		_yNum = yNum;
 		_sidePixels = sidePixels;
 		_core = core;
+		_watch = watch;
 		
 		URL resource = getClass().getResource("image.jpg");
 		try {
 			_face = new MyFace(resource.getFile(), _xNum, _yNum, _sidePixels);
 		} catch(IOException e) {
+			JOptionPane.showMessageDialog(null, "File = " + resource.getFile() + " nem található.", "Hiba", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
         this.setPreferredSize(new Dimension(_sidePixels * _yNum, _sidePixels * _xNum + 20));
@@ -58,7 +61,7 @@ public class SurfacePanel extends JPanel implements MouseListener {
                 if(it != null) {
                 	String str = Integer.toString((it.getX() * _yNum) + it.getY());
                 	
-                    g.setColor(Color.lightGray);
+                    g.setColor(Color.darkGray);
                     g.fillRect((yy*_sidePixels)+1, (xx*_sidePixels)+1, _sidePixels-2, _sidePixels-2);
                     g.setColor(Color.black);
                     g.drawString(str, (int)((yy+0.5)*_sidePixels), (int)((xx+0.5)*_sidePixels));
@@ -94,8 +97,9 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	        
 	        // vizsgalat hogy vege a jateknak
 	        if(_core.isGameOver()) {
-	        	JOptionPane.showMessageDialog(null, "Gyõztél!", "Gratulálok, Gyõztél!", JOptionPane.INFORMATION_MESSAGE);
-	        	
+	        	_watch.stop();
+	        	JOptionPane.showMessageDialog(null, "Gyõztél!\nAz idõd: " + _watch.getTime(),
+	        			"Gratulálok, Gyõztél!", JOptionPane.INFORMATION_MESSAGE);
 	        }
 		}
         
