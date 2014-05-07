@@ -3,6 +3,8 @@ package hu.bakro.test1;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 
 //

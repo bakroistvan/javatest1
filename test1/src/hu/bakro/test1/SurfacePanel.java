@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.swing.JOptionPane;
@@ -37,9 +40,10 @@ public class SurfacePanel extends JPanel implements MouseListener {
 		_core = core;
 		_watch = watch;
 		
-		URL resource = getClass().getResource("image.jpg");
+		URL resource = getClass().getResource("áimage.jpg");
+		
 		try {
-			_face = new MyFace(resource.getFile(), _xNum, _yNum, _sidePixels);
+			_face = new MyFace(java.net.URLDecoder.decode(resource.getFile(), "UTF-8"), _xNum, _yNum, _sidePixels);
 		} catch(IOException e) {
 			JOptionPane.showMessageDialog(null, "File = " + resource.getFile() + " nem található.", "Hiba", JOptionPane.INFORMATION_MESSAGE);
 		}
