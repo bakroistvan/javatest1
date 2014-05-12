@@ -67,11 +67,11 @@ public class SurfacePanel extends JPanel implements MouseListener {
                 	
                     g.setColor(Color.darkGray);
                     g.fillRect((yy*_sidePixels)+1, (xx*_sidePixels)+1, _sidePixels-2, _sidePixels-2);
-                    g.setColor(Color.black);
-                    g.drawString(str, (int)((yy+0.5)*_sidePixels), (int)((xx+0.5)*_sidePixels));
+                    
                     
                     g.drawImage(_face.getFace(it.getX(), it.getY()), (yy*_sidePixels)+1, (xx*_sidePixels)+1, _sidePixels-2, _sidePixels-2, null);
-                    
+                    g.setColor(Color.black);
+                    g.drawString(str, (int)((yy+0.1)*_sidePixels), (int)((xx+0.2)*_sidePixels));
                     
                     inPlace = it.isInGoodPlace(xx, yy) ? inPlace+1 : inPlace;
                 }
