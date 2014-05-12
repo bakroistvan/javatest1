@@ -31,9 +31,9 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	private final int _sidePixels;
 	private final ToliCore _core;
 	private MyFace _face;
-	private final Stopwatch _watch;
+	private final StopWatch _watch;
 	
-	public SurfacePanel(ToliCore core, Stopwatch watch, int xNum, int yNum, int sidePixels) {
+	public SurfacePanel(ToliCore core, StopWatch watch, int xNum, int yNum, int sidePixels) {
 		_xNum = xNum;
 		_yNum = yNum;
 		_sidePixels = sidePixels;

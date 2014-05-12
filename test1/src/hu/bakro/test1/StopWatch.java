@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 //
 import javax.swing.Timer;
 
-public class Stopwatch extends JLabel implements ActionListener {
+public class StopWatch extends JLabel implements ActionListener {
 	private int _h;
 	private int _m;
 	private int _s;
@@ -25,7 +25,7 @@ public class Stopwatch extends JLabel implements ActionListener {
 	private boolean _running = false;
 	private Timer _alarm;
 	
-	public Stopwatch() {
+	public StopWatch() {
 		super( "0:0:0.0", JLabel.CENTER );
 		_alarm = new Timer( 10, this);
 	}

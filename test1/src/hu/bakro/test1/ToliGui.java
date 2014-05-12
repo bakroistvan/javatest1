@@ -23,11 +23,11 @@ public class ToliGui extends JPanel {
 	private static final int sidePixels = 100;
 	private final ToliCore _core;
 	private final SurfacePanel _surface;
-	private final Stopwatch _watch;
+	private final StopWatch _watch;
 	
 	public ToliGui(int xNum, int yNum) {
         // stopperora cimke
-        _watch = new Stopwatch();
+        _watch = new StopWatch();
         
 		_core = new ToliCore(xNum, yNum);
 		_surface = new SurfacePanel(_core, _watch, xNum, yNum, sidePixels);
