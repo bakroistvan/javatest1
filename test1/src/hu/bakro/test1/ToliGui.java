@@ -47,7 +47,11 @@ public class ToliGui extends JPanel {
 		
 		// jatek elkezdese/ujrakezdese gomb
         JButton newGameButton = new JButton("New Game");
-        newGameButton.addActionListener(new StartGameAction());
+        if(!type.contentEquals("slave")) {
+        	newGameButton.addActionListener(new StartGameAction());
+        } else {
+        	newGameButton.setText("SLAVE");
+        }
 
         // panel
         JPanel controlPanel = new JPanel();

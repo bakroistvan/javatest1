@@ -45,12 +45,14 @@ public class Server extends Thread {
 						decode(tokens);
 						System.out.flush();
 					}
+					if(!_socket.isConnected()) {
+						break;
+					}
 				}
 			} catch (SocketTimeoutException s) {
 				System.out.println("Socket timed out!");
 			} catch (IOException e) {
 				e.printStackTrace();
-				break;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

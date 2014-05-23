@@ -98,6 +98,7 @@ public class ToliCore {
 				}
 			}
 		} while (this.isGameOver());
+		_inProgress = true;
 	}
 
 	/**

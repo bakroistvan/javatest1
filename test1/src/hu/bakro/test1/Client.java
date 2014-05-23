@@ -9,21 +9,27 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client {
+public class Client extends Thread {
 	private Socket _socket;
 	private OutputStream _ostream;
 	private PrintWriter _pwrite;
 	
 	public Client() {
-		try {
-			_socket = new Socket("localhost", 4242);
-			_ostream = _socket.getOutputStream();
-			_pwrite = new PrintWriter(_ostream, true);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
+	public void run() {
+		while (true) {
+			try {
+				_socket = new Socket("localhost", 4242);
+				_ostream = _socket.getOutputStream();
+				_pwrite = new PrintWriter(_ostream, true);
+				break;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	/**
 	 * Uzenet kuldese a slave-nek
@@ -31,7 +37,9 @@ public class Client {
 	 * @param msg
 	 **/
 	public void sendMsg(String msg) {
-		_pwrite.println(msg);
+		if(_pwrite != null) {
+			_pwrite.println(msg);
+		}
 	}
 }
 

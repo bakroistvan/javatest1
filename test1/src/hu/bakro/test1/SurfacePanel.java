@@ -45,12 +45,17 @@ public class SurfacePanel extends JPanel implements MouseListener {
 		
 		if(_type.contentEquals("master")) {
 			_client = new Client();
+			_client.start();
 		}
 		
-		URL resource = getClass().getResource("áimage.jpg");
+		URL resource = null;
+		if((resource = getClass().getResource("image.jpg")) == null) {
+			resource = getClass().getResource("hu/bakro/test1/image.jpg");
+		}
 		
 		try {
-			_face = new MyFace(java.net.URLDecoder.decode(resource.getFile(), "UTF-8"), _xNum, _yNum, _sidePixels);
+			//_face = new MyFace(java.net.URLDecoder.decode(resource.getFile(), "UTF-8"), _xNum, _yNum, _sidePixels);
+			_face = new MyFace("./image.jpg", _xNum, _yNum, _sidePixels);
 		} catch(IOException e) {
 			JOptionPane.showMessageDialog(null, "File = " + resource.getFile() + " nem található.", "Hiba", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -123,8 +128,9 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	        
 	        if(_type.contentEquals("master")) {
 				_client.sendMsg(String.format("move %d %d", xToMove, yToMove));
+				_client.sendMsg("paint");
 			}
-	        _client.sendMsg("paint");
+	        
 	        
 	        this.repaint();
 	        
