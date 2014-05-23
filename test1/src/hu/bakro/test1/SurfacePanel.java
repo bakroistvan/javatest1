@@ -32,13 +32,20 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	private final ToliCore _core;
 	private MyFace _face;
 	private final StopWatch _watch;
+	private String _type;
+	private Client _client;
 	
-	public SurfacePanel(ToliCore core, StopWatch watch, int xNum, int yNum, int sidePixels) {
+	public SurfacePanel(String type, ToliCore core, StopWatch watch, int xNum, int yNum, int sidePixels) {
 		_xNum = xNum;
 		_yNum = yNum;
 		_sidePixels = sidePixels;
 		_core = core;
 		_watch = watch;
+		_type = type;
+		
+		if(_type.contentEquals("master")) {
+			_client = new Client();
+		}
 		
 		URL resource = getClass().getResource("áimage.jpg");
 		
@@ -51,6 +58,25 @@ public class SurfacePanel extends JPanel implements MouseListener {
         this.setPreferredSize(new Dimension(_sidePixels * _yNum, _sidePixels * _xNum + 20));
         this.setBackground(Color.lightGray);
         this.addMouseListener(this);
+	}
+	
+	/**
+	 * Tavoli peldany inicializalasa
+	 *
+	**/
+	public void start() {
+		for(int xx = 0; xx < _core._xNum; xx++) {
+			for(int yy = 0; yy < _core._yNum; yy++) {
+				if(_core._table[xx][yy] != null) {
+					_client.sendMsg(String.format("set %d %d %d %d",
+									xx, yy,
+									_core._table[xx][yy].getX(), _core._table[xx][yy].getY()));
+				} else {
+					_client.sendMsg(String.format("clear %d %d", xx, yy));
+				}
+			}
+		}
+		_client.sendMsg("paint");
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -83,19 +109,22 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	}
 	
 	/**
-	 * Kattintas elkapasa es az elem-re a move meghivasa.
+	 * Elem mozgatasa
 	 *
-	 * @param    e
+	 * @param    xToMove
+	 * @param    yToMove
 	**/
-	public void mousePressed(MouseEvent e) {
+	public void movement(int xToMove, int yToMove) {
 		if(_core.isInProgress()) {
 			//System.out.println(e.toString());
-			// kattintas relativ koordinatainak elem-indexe alakitasa
-	        int xToMove = e.getY() / _sidePixels;
-	        int yToMove = e.getX() / _sidePixels;
 	        
 	        // kattintott elem mozgatasa
 	        _core.move(xToMove, yToMove);
+	        
+	        if(_type.contentEquals("master")) {
+				_client.sendMsg(String.format("move %d %d", xToMove, yToMove));
+			}
+	        _client.sendMsg("paint");
 	        
 	        this.repaint();
 	        
@@ -106,7 +135,20 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	        			"Gratulálok, Gyõztél!", JOptionPane.INFORMATION_MESSAGE);
 	        }
 		}
+	}
+	
+	
+	/**
+	 * Kattintas elkapasa es az elem-re a move meghivasa.
+	 *
+	 * @param    e
+	**/
+	public void mousePressed(MouseEvent e) {
+		// kattintas relativ koordinatainak elem-indexe alakitasa
+        int xToMove = e.getY() / _sidePixels;
+        int yToMove = e.getX() / _sidePixels;
         
+        movement(xToMove, yToMove);
 	}
 	/*
 	 * muszaj implementalni, de eldobjuk

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,14 +24,26 @@ public class ToliGui extends JPanel {
 	private static final int sidePixels = 100;
 	private final ToliCore _core;
 	private final SurfacePanel _surface;
-	private final StopWatch _watch;
+	protected final StopWatch _watch;
+	private String _type;
 	
-	public ToliGui(int xNum, int yNum) {
+	public ToliGui(String type, int xNum, int yNum) {
         // stopperora cimke
         _watch = new StopWatch();
+        _type = type;
         
 		_core = new ToliCore(xNum, yNum);
-		_surface = new SurfacePanel(_core, _watch, xNum, yNum, sidePixels);
+		_surface = new SurfacePanel(_type, _core, _watch, xNum, yNum, sidePixels);
+		
+		// halozati szal letrehozasa
+		try {
+			if(type.contentEquals("slave")) {
+				Thread t = new Server(4242, _core, _surface, this);
+				t.start();
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 		// jatek elkezdese/ujrakezdese gomb
         JButton newGameButton = new JButton("New Game");
@@ -65,6 +78,11 @@ public class ToliGui extends JPanel {
 			
 			// rajzoltatas
 			_surface.repaint();
+			
+			// tavoli peldany allasanak incializalasa
+			if(_type.contentEquals("master")) {
+				_surface.start();
+			}
 		}
 	}
 	
