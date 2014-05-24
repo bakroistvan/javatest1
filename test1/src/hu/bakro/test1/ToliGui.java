@@ -27,6 +27,14 @@ public class ToliGui extends JPanel {
 	protected final StopWatch _watch;
 	private String _type;
 	
+	/**
+	 * A stopperora a jatekmag a rajzolo osztaly peldanyositasa.
+	 * A jatek feluletelemenek tarolasa szolgalo containerek peldanyositasa.
+	 * 
+	 * @param type Megadja a szoftver modjat: standalone/master/slave
+	 * @param xNum A tabla sorainak szama
+	 * @param yNum A tabla oszlopainak szama
+	 */
 	public ToliGui(String type, int xNum, int yNum) {
         // stopperora cimke
         _watch = new StopWatch();
@@ -38,7 +46,7 @@ public class ToliGui extends JPanel {
 		// halozati szal letrehozasa
 		try {
 			if(type.contentEquals("slave")) {
-				Thread t = new Server(4242, _core, _surface, this);
+				Thread t = new Server(4242, _core, _surface);
 				t.start();
 			}
 		} catch(IOException e) {
@@ -68,9 +76,10 @@ public class ToliGui extends JPanel {
 	
 	public class StartGameAction implements ActionListener {
 		/**
-		 * Gomb lenyomasanak elkapasa es a jatek (ujra)kezdese.
+		 * Gomb lenyomasanak elkapasa, ami a jatekot el/ujrakezdzi.
+		 * Master eseten a halozati peldanyt inicializalja
 		 *
-		 * @param    e
+		 * @param    e ActionEvent, ami a kattintast informacioit tartalmazza 
 		**/
 		public void actionPerformed(ActionEvent e) {
 			// tabla megkevetese

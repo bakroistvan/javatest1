@@ -25,13 +25,17 @@ public class StopWatch extends JLabel implements ActionListener {
 	private boolean _running = false;
 	private Timer _alarm;
 	
+	/**
+	 * Az ososztaly (JLabel) konstruktoranak meghivasa a default ertekkel
+	 * Az idozito peldanyositasa szazadmasodperc periodusidovel.
+	 */
 	public StopWatch() {
 		super( "0:0:0.0", JLabel.CENTER );
 		_alarm = new Timer( 10, this);
 	}
 	
 	/**
-	 * A stopperora akutalis erteke sting-kent
+	 * A stopperora akutalis erteke String-kent
 	**/
 	public String getTime() {
 		return Integer.toString(_h) + ":" + 

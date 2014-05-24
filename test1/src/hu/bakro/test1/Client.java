@@ -15,9 +15,11 @@ public class Client extends Thread {
 	private PrintWriter _pwrite;
 	
 	public Client() {
-		
 	}
 	
+	/**
+	 * Kliens szálának fuggvenye, ami probalkozik kapcsolodni a szerverhez (Slave)
+	 */
 	public void run() {
 		while (true) {
 			try {
@@ -34,7 +36,7 @@ public class Client extends Thread {
 	/**
 	 * Uzenet kuldese a slave-nek
 	 * 
-	 * @param msg
+	 * @param msg	Az uzenet szovege
 	 **/
 	public void sendMsg(String msg) {
 		if(_pwrite != null) {

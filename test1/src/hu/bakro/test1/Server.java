@@ -15,18 +15,30 @@ public class Server extends Thread {
 	
 	private ToliCore _core;
 	private SurfacePanel _surface;
-	private ToliGui _gui;
 	
-	public Server(int port, ToliCore core, SurfacePanel surface, ToliGui gui) throws IOException {
+	/**
+	 * A port parameteren hallgato socketet hoz letre.
+	 * A core, surface, gui objektumok a MASTER altal kuldott parancsok vegrehajthatosaga vegett adodik at.
+	 *  
+	 * @param port Socket portja
+	 * @param core A jatekmag
+	 * @param surface A felulet kirajzolasert felelo osztaly
+	 * @throws IOException
+	 */
+	public Server(int port, ToliCore core, SurfacePanel surface) throws IOException {
 		_core = core;
 		_surface = surface;
-		_gui = gui;
 		
 		_serverSocket = new ServerSocket(port);
 		_serverSocket.setSoTimeout(10000);
 		System.out.println("Socket opened!");
 	}
-
+	
+	/**
+	 * Szerver szaljanak fuggvenye. Var akliensre timeout-ig, azutan ujraprobalkozik a varassal.
+	 * Kapcsolodas utan a kuldott adatokat polling-olja. Erkezett adatot a decode fgv.-el hajtattja vegre.
+	 *
+	**/
 	public void run() {
 		while (true) {
 			try {
@@ -62,7 +74,7 @@ public class Server extends Thread {
 	/**
 	 * Kapott uzenet/parancs dekodolasa es vegrehajtasa
 	 * 
-	 * @param tokens
+	 * @param tokens Tombbe szervezett parancs es az ergumentumai
 	 **/	
 	private void decode(String[] tokens) {
 		switch(tokens[0]) {

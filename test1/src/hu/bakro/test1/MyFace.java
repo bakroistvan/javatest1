@@ -26,12 +26,13 @@ public class MyFace {
 	private final int _sidePixels;
 	
 	/**
-	 *
+	 * MyFace konstruktora, ami a path-al definialt kepet megnyitja es xNum,yNum darabra vegja szet.
+	 * 
 	 * @param    path       kep eleresi cime
-	 * @param    xNum
-	 * @param    yNum
-	 * @param    sidePixel  feldarabolt elemek szelessege pixelben.
-	 * @throws IOException 
+	 * @param    xNum		A tabla x iranyu merete
+	 * @param    yNum		A tabla y iranyu merete
+	 * @param    sidePixels  Feldarabolt elemek szelessege pixelben.
+	 * @throws IOException Ha nem tudja olvasni a kepet.
 	**/
 	public MyFace(String path, int xNum, int yNum, int sidePixels) throws IOException {
 		File picFile = new File(path);
@@ -49,8 +50,8 @@ public class MyFace {
 	/**
 	 * Adott elem kep-reszletenek visszaadasa.
 	 *
-	 * @param    x
-	 * @param    y
+	 * @param    x Elem x indexe
+	 * @param    y Elem y indexe
 	**/
 	public BufferedImage getFace(int x, int y) {
 		return _ims[x][y];
@@ -59,8 +60,8 @@ public class MyFace {
 	/**
 	 * A kirakando kep megvaltoztatasa.
 	 *
-	 * @param    path
-	 * @throws IOException 
+	 * @param    path	Uj kep eleresi utja
+	 * @throws IOException Ha nem tudja a kepet megnyitni
 	**/
 	public void changePic(String path) throws IOException {
 		_pic = ImageIO.read(new File(path));
@@ -68,7 +69,7 @@ public class MyFace {
 	}
 	
 	/**
-	 * Kep feldarabolasa az elemeknek.
+	 * Kep feldarabolasa es a megkapott elem-kepek eltarolasa.
 	**/
 	public void slicing() {
 		int dw = (int)Math.floor(_pic.getWidth() / _yNum);

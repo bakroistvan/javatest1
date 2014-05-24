@@ -35,6 +35,17 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	private String _type;
 	private Client _client;
 	
+	/**
+	 * A jatek tablajanak es a stopperoranak a kirajzolasaert felel.
+	 * Az elemre valo kattintast az inline-osztaly tagfuggvenye kezeli le. 
+	 * 
+	 * @param type Szoftver modjanak tipusa: standalone/master/slave
+	 * @param core Jatekmag peldanya
+	 * @param watch Stopperora peldanya
+	 * @param xNum Tabla sorainak szama
+	 * @param yNum Tabla oszlopainak szama
+	 * @param sidePixels Elemek merete [pixel]
+	**/
 	public SurfacePanel(String type, ToliCore core, StopWatch watch, int xNum, int yNum, int sidePixels) {
 		_xNum = xNum;
 		_yNum = yNum;
@@ -84,6 +95,10 @@ public class SurfacePanel extends JPanel implements MouseListener {
 		_client.sendMsg("paint");
 	}
 	
+	/**
+	 * Tabla elemeinek kirajzolasa es a folyamatjelzo (kesz/osszes) kiirasa 
+	 *
+	**/
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -114,10 +129,11 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	}
 	
 	/**
-	 * Elem mozgatasa
+	 * Elem mozgatasa a szabalyoknak megfeleloen es ujrarajzolas
+	 * Master eseten a halozati peldanynak a move parancs elkuldese
 	 *
-	 * @param    xToMove
-	 * @param    yToMove
+	 * @param    xToMove	elem x indexe
+	 * @param    yToMove	elem y index
 	**/
 	public void movement(int xToMove, int yToMove) {
 		if(_core.isInProgress()) {
@@ -147,7 +163,7 @@ public class SurfacePanel extends JPanel implements MouseListener {
 	/**
 	 * Kattintas elkapasa es az elem-re a move meghivasa.
 	 *
-	 * @param    e
+	 * @param    e	MouseEvent, amibol a kattintas koordinatait kinyerjuk
 	**/
 	public void mousePressed(MouseEvent e) {
 		// kattintas relativ koordinatainak elem-indexe alakitasa

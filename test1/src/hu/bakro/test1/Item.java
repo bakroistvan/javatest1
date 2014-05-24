@@ -15,15 +15,27 @@ public class Item {
 	private int _x;
 	private int _y;
 	
+	
+	/**
+	 * Az eredeti pozicioval inicializalo konstruktor
+	 * @param x Eredeti x index
+	 * @param y Eredeti y index
+	**/
 	public Item(int x, int y) {
 		_x = x;
 		_y = y;
 	}
 	
+	/**
+	 * Elem eredeti x indexenek lekerdezese
+	**/
 	public int getX() {
 		return _x;
 	}
 	
+	/**
+	 * Elem eredeti y indexenek lekerdezese
+	**/
 	public int getY() {
 		return _y;
 	}
@@ -31,8 +43,8 @@ public class Item {
 	/**
 	 * Megnezi, hogy az aktualis pozicioja megegyezik a konstrukcioja soran megadottakkal.
 	 *
-	 * @param    x
-	 * @param    y
+	 * @param    x Az elem aktualis x indexe (pozicioja a tablan)
+	 * @param    y Az elem aktualis y indexe (pozicioja a tablan)
 	**/
 	public boolean isInGoodPlace(int x, int y) {
 		return (_x == x) && (_y == y);

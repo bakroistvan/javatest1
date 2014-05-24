@@ -19,6 +19,11 @@ public class ToliCore {
 	private boolean _inProgress = false;
 	protected Item[][] _table;
 
+	/**
+	 * A jatekmag peldanyositasa xNum,yNum meretu tablaval. A konstruktor a tablat az eredeti helyevel inicializalja az elemeket.
+	 * @param xNum Tabla sorainak szama
+	 * @param yNum Tabla oszlopainak szama
+	**/
 	public ToliCore(int xNum, int yNum) {
 		_xNum = xNum;
 		_yNum = yNum;
@@ -38,22 +43,49 @@ public class ToliCore {
 
 	}
 
+	/**
+	 * Adott x,y indexu elem lekerese
+	 * 
+	 * @param    x	Lekerendo elem x indexe
+	 * @param    y	Lekerendo elem y indexe
+	 **/
 	public Item getItem(int x, int y) {
 		return _table[x][y];
 	}
+	
+	/**
+	 * Adott x,y indexu elem peldanyositasa a valX,valY ertekkel lekerese
+	 * 
+	 * @param    x	Beallitando elem x indexe
+	 * @param    y	Beallitando elem y indexe
+	 * @param    valY	Az elem eredeti x indexe
+	 * @param    valX	Az elem eredeti x indexe
+	 **/
 	public void setItemXY(int x, int y, int valX, int valY) {
 		_table[x][y] = new Item(valX, valY);
 	}
+	
+	/**
+	 * Adott x,y indexu elem torlese (null)
+	 * 
+	 * @param    x	Torlendo elem x indexe
+	 * @param    y	Torlendo elem y indexe
+	 **/
 	public void clearItemXY(int x, int y) {
 		_table[x][y] = null;
 	}
 
+	/**
+	 * A jatek folyamatanak lekerdezese
+	 * 
+	 **/
 	public boolean isInProgress() {
 		return _inProgress;
 	}
 
 	/**
-	 * 100 veletlen lepeses keveres
+	 * 100 veletlen lepeses keveres, de kirakott tabla nem lehetseges
+	 * Eloszor megkeresi az ures mezot, amit 100 veletlen, de szabalyos lepessel mozgat
 	 **/
 	public void shuffle() {
 		_inProgress = true;
@@ -102,11 +134,11 @@ public class ToliCore {
 	}
 
 	/**
-	 * Adott x es y indexu elemet modit, ha tud (true), ha nem akkor false-al
+	 * Adott x es y indexu elemet mozdit, ha tud (true), ha nem akkor false-al
 	 * ter vissza.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x Mozditando elem x indexe
+	 * @param y Mozditando elem y indexe
 	 **/
 	public boolean move(int x, int y) throws ArrayIndexOutOfBoundsException {
 		// elem indexe a tablan kivulre esik
@@ -139,7 +171,7 @@ public class ToliCore {
 	}
 
 	/**
-	 * Megvizsgalja, hogy a kep ki van-e rakva.
+	 * Megvizsgalja, hogy a kep ki van-e rakva es annak megfeleloen ter vissza.
 	 **/
 	public boolean isGameOver() {
 		boolean ret = true;
